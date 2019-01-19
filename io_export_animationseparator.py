@@ -1,7 +1,7 @@
 bl_info = {
         "name":         "Fbx Animation Splitter for Xenko",
         "category":     "Import-Export",
-        "version":      (0,0,1),
+        "version":      (0,0,2),
         "blender":      (2,80,0),
         "location":     "File > Import-Export",
         "description":  "Split Animation Export",
@@ -26,7 +26,6 @@ def main(context):
         startStates.append(bpy.data.actions[i].use_fake_user)
         bpy.data.actions[i].use_fake_user = False
     
-    count = 0
     for i in range(0, len(bpy.data.actions)):
         if bpy.data.actions[i].name == 'ArmatureAction':
             print('skipping')
@@ -34,6 +33,8 @@ def main(context):
         elif startStates[i]:
             bpy.data.actions[i].use_fake_user = True
             #export here
+            
+            context.object.animation_data.action = bpy.data.actions[i]
             context.scene.frame_end = bpy.data.actions[i].frame_range[1]
 
             target_file = os.path.join(directory, os.path.splitext(context.blend_data.filepath)[0] + '_' + bpy.data.actions[i].name + '.fbx')
