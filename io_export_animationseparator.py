@@ -1,7 +1,7 @@
 bl_info = {
         "name":         "Fbx Animation Splitter for Stride3D Engine",
         "category":     "Import-Export",
-        "version":      (0,0,3),
+        "version":      (0,0,4),
         "blender":      (2,90,0),
         "location":     "File > Import-Export",
         "description":  "Split Animation Export",
@@ -39,7 +39,15 @@ def main(context):
 
             target_file = os.path.join(directory, os.path.splitext(context.blend_data.filepath)[0] + '_' + bpy.data.actions[i].name + '.fbx')
             print(str(bpy.data.actions[i].name))
-            bpy.ops.export_scene.fbx(filepath = target_file, check_existing = False, object_types = {'ARMATURE', 'MESH'}, bake_anim_use_nla_strips=False, bake_anim_use_all_actions=False, bake_anim_force_startend_keying=False)
+            bpy.ops.export_scene.fbx(filepath = target_file,
+                check_existing = False,
+                object_types = {'ARMATURE', 'MESH'},
+                bake_anim_use_nla_strips = False,
+                bake_anim_use_all_actions = False,
+                bake_anim_force_startend_keying = True,
+                add_leaf_bones = False,
+                use_armature_deform_only = True)
+                
             bpy.data.actions[i].use_fake_user = False
         
     #revert to what it was
