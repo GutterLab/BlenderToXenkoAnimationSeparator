@@ -1,8 +1,8 @@
 bl_info = {
-        "name":         "Fbx Animation Splitter for Xenko",
+        "name":         "Fbx Animation Splitter for Stride3D Engine",
         "category":     "Import-Export",
-        "version":      (0,0,2),
-        "blender":      (2,80,0),
+        "version":      (0,0,3),
+        "blender":      (2,90,0),
         "location":     "File > Import-Export",
         "description":  "Split Animation Export",
         "category":     "Import-Export"
@@ -56,13 +56,15 @@ class SplitAnimations(bpy.types.Operator):
         return {'FINISHED'}
 
 def menu_func(self, context):
-    self.layout.operator(operator.SplitAnimations.bl_idname, text="SplitAnimations")
+    self.layout.operator(SplitAnimations.bl_idname)
 
 def register():
     bpy.utils.register_class(SplitAnimations)
+    bpy.types.TOPBAR_MT_file_export.append(menu_func)
     
 def unregister():
-    bpy.utils.register_class(SplitAnimations)
+    bpy.utils.unregister_class(SplitAnimations)
+    bpy.types.TOPBAR_MT_file_export.remove(menu_func)
 
 if __name__ == "__main__":
     register()
